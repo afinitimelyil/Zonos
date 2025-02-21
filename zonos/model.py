@@ -20,7 +20,7 @@ DEFAULT_BACKBONE_CLS = next(iter(BACKBONES.values()))
 
 
 class Zonos(nn.Module):
-    def __init__(self, config: ZonosConfig, backbone_cls=DEFAULT_BACKBONE_CLS):
+    def __init__(self, config: ZonosConfig, backbone_cls=DEFAULT_BACKBONE_CLS, dac_model_folder: str | None = None):
         super().__init__()
         self.config = config
         dim = config.backbone.d_model
@@ -30,7 +30,7 @@ class Zonos(nn.Module):
         self._spk_model_path: str | None = None
         self._lda_spk_model_path: str | None = None
 
-        self.autoencoder = DACAutoencoder()
+        self.autoencoder = DACAutoencoder(dac_model_folder)
         self.backbone = backbone_cls(config.backbone)
         self.prefix_conditioner = PrefixConditioner(config.prefix_conditioner, dim)
         self.spk_clone_model = None
