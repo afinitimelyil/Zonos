@@ -27,6 +27,9 @@ class Zonos(nn.Module):
         self.eos_token_id = config.eos_token_id
         self.masked_token_id = config.masked_token_id
 
+        self._spk_model_path: str | None = None
+        self._lda_spk_model_path: str | None = None
+
         self.autoencoder = DACAutoencoder()
         self.backbone = backbone_cls(config.backbone)
         self.prefix_conditioner = PrefixConditioner(config.prefix_conditioner, dim)
@@ -87,10 +90,14 @@ class Zonos(nn.Module):
 
         return model
 
+    def set_speaker_embedding_paths(self, spk_model_path: str | None = None, lda_spk_model_path: str | None = None):
+        self._spk_model_path: str | None = spk_model_path
+        self._lda_spk_model_path: str | None = lda_spk_model_path
+
     def make_speaker_embedding(self, wav: torch.Tensor, sr: int) -> torch.Tensor:
         """Generate a speaker embedding from an audio clip."""
         if self.spk_clone_model is None:
-            self.spk_clone_model = SpeakerEmbeddingLDA()
+            self.spk_clone_model = SpeakerEmbeddingLDA(spk_model_path=self._spk_model_path, lda_spk_model_path=self._lda_spk_model_path)
         _, spk_embedding = self.spk_clone_model(wav.to(self.spk_clone_model.device), sr)
         return spk_embedding.unsqueeze(0).bfloat16()
 
