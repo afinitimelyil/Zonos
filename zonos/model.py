@@ -67,7 +67,7 @@ class Zonos(nn.Module):
 
     @classmethod
     def from_local(
-        cls, config_path: str, model_path: str, device: str = DEFAULT_DEVICE, backbone: str | None = None
+        cls, config_path: str, model_path: str, device: str = DEFAULT_DEVICE, backbone: str | None = None, dac_model_folder: str | None = None
     ) -> "Zonos":
         config = ZonosConfig.from_dict(json.load(open(config_path)))
         if backbone:
@@ -79,7 +79,7 @@ class Zonos(nn.Module):
             if is_transformer and "torch" in BACKBONES:
                 backbone_cls = BACKBONES["torch"]
 
-        model = cls(config, backbone_cls).to(device, torch.bfloat16)
+        model = cls(config, backbone_cls, dac_model_folder).to(device, torch.bfloat16)
         model.autoencoder.dac.to(device)
 
         sd = model.state_dict()
