@@ -33,7 +33,7 @@ compile = [
 include = ["zonos", "zonos.*"]
 
 [tool.uv]
-no-build-isolation-package = ["wheel", "flash-attn", "mamba-ssm", "causal-conv1d"]
+no-build-isolation-package = ["flash-attn", "mamba-ssm", "causal-conv1d"]
 
 [tool.ruff]
 line-length = 120
