@@ -25,13 +25,15 @@ dependencies = [
 [project.optional-dependencies]
 compile = [
     "flash-attn>=2.7.3",
+    "mamba-ssm>=2.2.4",
+    "causal-conv1d>=1.5.0.post8",
 ]
 
 [tool.setuptools.packages.find]
 include = ["zonos", "zonos.*"]
 
 [tool.uv]
-no-build-isolation-package = ["flash-attn"]
+no-build-isolation-package = ["wheel", "flash-attn", "mamba-ssm", "causal-conv1d"]
 
 [tool.ruff]
 line-length = 120
