@@ -113,17 +113,7 @@ def _expand_ordinal(m: re.Match) -> str:
 
 def _expand_number(m: re.Match) -> str:
     num = int(m.group(0))
-    if num > 1000 and num < 3000:
-        if num == 2000:
-            return "two thousand"
-        elif num > 2000 and num < 2010:
-            return "two thousand " + _inflect.number_to_words(num % 100)
-        elif num % 100 == 0:
-            return _inflect.number_to_words(num // 100) + " hundred"
-        else:
-            return _inflect.number_to_words(num, andword="", zero="oh", group=2).replace(", ", " ")
-    else:
-        return _inflect.number_to_words(num, andword="")
+    return _inflect.number_to_words(num, andword="")
 
 
 def normalize_numbers(text: str) -> str:
