@@ -4,7 +4,7 @@ try:
     from ._mamba_ssm import MambaSSMZonosBackbone
 
     BACKBONES["mamba_ssm"] = MambaSSMZonosBackbone
-except ImportError:
+except Exception:
     pass
 
 from ._torch import TorchZonosBackbone
